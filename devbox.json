@@ -1,0 +1,32 @@
+{
+  "packages": [
+    "postgresql",
+    "sqlc",
+    "go-task",
+    "docker",
+    "fish",
+    "golangci-lint",
+    "gcc",
+    "git",
+    "go@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "echo 'Welcome to ThriveMind development environment'",
+      "set -gx PATH $PATH (go env GOPATH)/bin",
+      "set -gx GOFLAGS \"\"",
+      "command -v migrate >/dev/null 2>&1; or begin; set -gx GOFLAGS \"\"; go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest; end",
+      "command -v air >/dev/null 2>&1; or begin; set -gx GOFLAGS \"\"; go install github.com/cosmtrek/air@latest; end"
+    ],
+    "scripts": {
+      "test":  "go test ./...",
+      "lint":  "golangci-lint run",
+      "dev":   "air -c .air.toml",
+      "build": "go build -o bin/thrivemind ./cmd/api"
+    }
+  },
+  "env": {
+    "GO111MODULE": "on",
+    "CGO_ENABLED": "0"
+  }
+}

@@ -1,0 +1,181 @@
+version: '3'
+
+vars:
+  APP_NAME: thrivemind
+  DOCKER_IMAGE: thrivemind
+  GO_FILES:
+    sh: find . -type f -name '*.go' -not -path "./vendor/*"
+
+env:
+  CGO_ENABLED: 0
+
+tasks:
+  default:
+    cmds:
+      - task: help
+
+  help:
+    desc: Display available tasks
+    cmds:
+      - task --list
+
+  deps:
+    desc: Install development dependencies
+    cmds:
+      - go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+      - go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+      - go mod tidy
+    status:
+      - which sqlc
+      - which migrate
+
+  build:
+    desc: Build the application
+    cmds:
+      - go build -o bin/{{.APP_NAME}} ./cmd/thrivemind
+    sources:
+      - ./cmd/**/*.go
+      - ./internal/**/*.go
+      - ./pkg/**/*.go
+    generates:
+      - bin/{{.APP_NAME}}
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test -v -race ./...
+
+  lint:
+    desc: Run linters
+    cmds:
+      - go vet ./...
+      - test -z $(gofmt -l {{.GO_FILES}})
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - rm -rf bin/
+      - rm -rf vendor/
+      - rm -rf tmp/
+
+  # Database tasks
+  db:local:up:
+    desc: Start local PostgreSQL container
+    cmds:
+      - docker rm -f {{.APP_NAME}}-db || true
+      - docker run --name {{.APP_NAME}}-db -e POSTGRES_DB={{.APP_NAME}} -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:15-alpine
+    status:
+      - docker ps | grep {{.APP_NAME}}-db
+
+  db:local:down:
+    desc: Stop local PostgreSQL container
+    cmds:
+      - docker stop {{.APP_NAME}}-db || true
+      - docker rm {{.APP_NAME}}-db || true
+
+  migrate:up:
+    desc: Run database migrations
+    cmds:
+      - ./bin/{{.APP_NAME}} migrate up
+
+  migrate:down:
+    desc: Rollback database migrations
+    cmds:
+      - ./bin/{{.APP_NAME}} migrate down
+
+  sqlc:
+    desc: Generate Go code from SQL
+    cmds:
+      - sqlc generate
+
+  # Docker tasks
+  docker:build:
+    desc: Build Docker image
+    cmds:
+      - docker build -t {{.DOCKER_IMAGE}}:latest .
+
+  docker:run:
+    desc: Run Docker container
+    deps: [docker:build]
+    cmds:
+      - docker run -p 8080:8080 --name {{.APP_NAME}} {{.DOCKER_IMAGE}}:latest
+
+  docker:stop:
+    desc: Stop Docker container
+    cmds:
+      - docker stop {{.APP_NAME}} || true
+      - docker rm {{.APP_NAME}} || true
+
+  # Development workflow tasks
+  dev:setup:
+    desc: Setup development environment
+    cmds:
+      - task: devbox:setup
+      - task: deps
+      - task: db:local:up
+      - task: migrate:up
+      - task: sqlc
+
+  dev:reset:
+    desc: Reset development environment
+    cmds:
+      - task: db:local:down
+      - task: clean
+      - task: dev:setup
+
+  dev:start:
+    desc: Start development server
+    cmds:
+      - ./bin/{{.APP_NAME}} serve
+
+  dev:live:
+    desc: Start development server with hot reload
+    cmds:
+      - air -c .air.toml
+
+  # Devbox tasks
+  devbox:install:
+    desc: Install devbox
+    cmds:
+      - |
+        if ! command -v devbox &> /dev/null; then
+          curl -fsSL https://get.jetpack.io/devbox | bash
+        fi
+
+  devbox:setup:
+    desc: Setup devbox environment
+    cmds:
+      - task: devbox:install
+      - devbox install
+      - rm -f .envrc || true
+      - devbox generate direnv > .envrc
+      - direnv allow .
+
+  devbox:shell:
+    desc: Enter devbox shell
+    cmds:
+      - devbox shell
+
+  # Tools verification
+  verify:tools:
+    desc: Verify all required tools are installed
+    cmds:
+      - |
+        echo "Verifying required tools..."
+        command -v go >/dev/null 2>&1 || { echo "go is required but not installed"; exit 1; }
+        command -v docker >/dev/null 2>&1 || { echo "docker is required but not installed"; exit 1; }
+        command -v sqlc >/dev/null 2>&1 || { echo "sqlc is required but not installed"; exit 1; }
+        command -v migrate >/dev/null 2>&1 || { echo "migrate is required but not installed"; exit 1; }
+        echo "All required tools are installed"
+
+  # Database utilities
+  db:psql:
+    desc: Connect to local database with psql
+    cmds:
+      - PGPASSWORD=postgres psql -h localhost -U postgres -d {{.APP_NAME}}
+
+  db:reset:
+    desc: Reset database (drop and recreate)
+    cmds:
+      - task: migrate:down
+      - task: migrate:up

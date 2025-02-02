@@ -1,0 +1,23 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Build artifacts
+bin/
+vendor/
+
+# Development
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Task
+Taskfile.yml
+
+# Tests
+*_test.go
