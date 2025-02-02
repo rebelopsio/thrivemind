@@ -1,0 +1,181 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "docker": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#docker",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/39gh1q9ipybwj9ifplmsmrv4wyag4363-docker-20.10.26",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/wpb1nsg4fjk4y8fsncmz6whylmghzpxs-docker-20.10.26-man",
+              "default": true
+            }
+          ]
+        }
+      }
+    },
+    "fish": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#fish",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/brlkinambh1hg2baqy43fyi7x66nqy8q-fish-3.6.1",
+              "default": true
+            }
+          ]
+        }
+      }
+    },
+    "gcc": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#gcc",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "man",
+              "path": "/nix/store/inv28qs224nx55i5fl2d7n2fzymzyf0a-gcc-wrapper-12.3.0-man",
+              "default": true
+            },
+            {
+              "path": "/nix/store/ls64ifjbsp6d8a4ixrgxghqh50k2341c-gcc-wrapper-12.3.0",
+              "default": true
+            }
+          ]
+        }
+      }
+    },
+    "git": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#git",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/0ifwlmw97aq4ic4l69j3kh677lay4kmx-git-2.42.0",
+              "default": true
+            }
+          ]
+        }
+      }
+    },
+    "go-task": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#go-task",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/r4d11bw8yd82kyh8xn0c6gayw45fpn4w-go-task-3.31.0",
+              "default": true
+            }
+          ]
+        }
+      }
+    },
+    "go@latest": {
+      "last_modified": "2025-01-19T08:16:51Z",
+      "resolved": "github:NixOS/nixpkgs/50165c4f7eb48ce82bd063e1fb8047a0f515f8ce#go",
+      "source": "devbox-search",
+      "version": "1.23.4",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/lg7l1czmd5hqwwhjszprdz342q98zmkw-go-1.23.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/lg7l1czmd5hqwwhjszprdz342q98zmkw-go-1.23.4"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/2x7k6yj9z37s3d3x5j3kkz6bcak8k9qr-go-1.23.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/2x7k6yj9z37s3d3x5j3kkz6bcak8k9qr-go-1.23.4"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/8x0ag0v37rfy9z58a8yy3hakj3dzdr9c-go-1.23.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/8x0ag0v37rfy9z58a8yy3hakj3dzdr9c-go-1.23.4"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/0b6vsy4fa4i4qpk1011hi6251nwdg5y8-go-1.23.4",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/0b6vsy4fa4i4qpk1011hi6251nwdg5y8-go-1.23.4"
+        }
+      }
+    },
+    "golangci-lint": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#golangci-lint",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/s6ivnmfl0dznsk9vhkx4w60hqfsysfni-golangci-lint-1.55.1",
+              "default": true
+            }
+          ]
+        }
+      }
+    },
+    "postgresql": {
+      "plugin_version": "0.0.2",
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#postgresql",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/c5sg23x5rhwp62q3rr655j1zhx8s3ncp-postgresql-15.4",
+              "default": true
+            },
+            {
+              "name": "man",
+              "path": "/nix/store/z6jzsr98afk8jcarfczgvl17v345dx9a-postgresql-15.4-man",
+              "default": true
+            }
+          ]
+        }
+      }
+    },
+    "sqlc": {
+      "resolved": "github:NixOS/nixpkgs/75a52265bda7fd25e06e3a67dee3f0354e73243c#sqlc",
+      "source": "nixpkg",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "path": "/nix/store/97mjqgvzjjf4azjh1kknpic381gkjdy5-sqlc-1.22.0",
+              "default": true
+            }
+          ]
+        }
+      }
+    }
+  }
+}

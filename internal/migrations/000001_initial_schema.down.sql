@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS coaching_sessions;
+DROP TABLE IF EXISTS coaches;
+DROP TABLE IF EXISTS food_logs;
+DROP TABLE IF EXISTS foods;
+DROP TABLE IF EXISTS user_profiles;
+DROP TABLE IF EXISTS users;
+DROP EXTENSION IF EXISTS "uuid-ossp";
